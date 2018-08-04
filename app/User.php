@@ -28,5 +28,27 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
-    
+    /**
+     * This function is used to get list of users
+     * 
+     * @return Array array of users
+     */
+    public static function getList() {
+        return Self::where(['role_id' => config('constants.roles.user')])
+                ->orderBy("id", "DESC")
+                ->paginate(config('constants.pageLimit'));
+    }
+
+
+    /**
+     * This function is used to create a new user
+     * 
+     * @param Array $input validated user data array
+     * @return Array user array
+     */
+    public static function createNew($input) {
+        $input['role_id'] = config('constants.roles.user');
+        $input['status']  = config('constants.status.active');
+        return self::create($input);
+    }
 }

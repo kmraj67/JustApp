@@ -8,5 +8,6 @@ return [
     'roles' => [
         'admin' => 1,
         'user' => 2
-    ]
+    ],
+    'pageLimit' => 5
 ];
