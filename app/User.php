@@ -36,7 +36,7 @@ class User extends Authenticatable
      */
     protected $validSortElements = [
         'sortBy' => ['first_name', 'last_name', 'email', 'created_at', 'modified_at'],
-        'direction' => ['ASC', 'DESC']
+        'direction' => ['asc', 'desc']
     ];
     
     public function role() {
@@ -79,13 +79,14 @@ class User extends Authenticatable
         }
         
         // Sort users by column name
-        if($request->has('sortby') && in_array($request->get('sortby'), $this->validSortElements)) {
+        if($request->has('sortby') && in_array($request->get('sortby'), $this->validSortElements['sortBy'])) {
             $query->orderBy($request->get('sortby'), $request->get('direction', 'ASC'));
         } else {
             $query->orderBy('created_at', 'DESC');
         }
         
-        return $query->paginate();
+//        echo $query->toSql(); die("Here!");
+        return $query->paginate(config('constants.pageLimit'));
     }
 
 

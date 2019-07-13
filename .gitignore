@@ -13,3 +13,4 @@ yarn-error.log
 .env
 /nbproject
 composer.lock
+/apidoc/output
