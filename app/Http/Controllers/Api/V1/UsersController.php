@@ -8,18 +8,24 @@ use App\Http\Requests\UserRequest;
 use App\User;
 
 class UsersController extends BaseController {
+    
+    protected $user;
+
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {}
+    public function __construct() {
+        $this->user = (new User());
+    }
     
     /**
      * This function is used to get the list of all users
      */
-    public function index() {
-        return User::getList();
+    public function index(Request $request) {
+        return $this->user->getList($request);
     }
     
     /**
@@ -30,7 +36,7 @@ class UsersController extends BaseController {
     */
     public function store(UserRequest $request) {
         try {
-            $user = User::createNew($request->validated());
+            $user = $this->user->createNew($request->validated());
             return $this->sendResponse($user, 'User created successfully.');
         } catch(\Exception $ex) {
             return $this->sendError($ex->getMessage(), [], 406);
