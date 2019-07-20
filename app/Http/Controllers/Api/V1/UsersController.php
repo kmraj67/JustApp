@@ -25,7 +25,25 @@ class UsersController extends BaseController {
      * This function is used to get the list of all users
      */
     public function index(Request $request) {
-        return $this->user->getList($request);
+        try {
+            return $this->user->getList($request);
+        } catch (\Exception $ex) {
+            return $this->sendError($ex->getMessage(), [], $ex->getCode());
+        }
+    }
+    
+    /**
+     * This function is used to get user details by user ID
+     * 
+     * @param integer $id User ID
+     * @return json Response
+     */
+    public function show($id) {
+        try {
+            return $this->sendResponse($this->user->getDetails($id));
+        } catch (\Exception $ex) {
+            return $this->sendError($ex->getMessage(), [], $ex->getCode());
+        }
     }
     
     /**

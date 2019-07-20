@@ -85,10 +85,17 @@ class User extends Authenticatable
             $query->orderBy('created_at', 'DESC');
         }
         
-//        echo $query->toSql(); die("Here!");
         return $query->paginate(config('constants.pageLimit'));
     }
 
+    
+    public function getDetails($id) {
+        $row = self::where('id', '=', $id)->with(['role'])->get()->first();
+        if(empty($row)) {
+            throw new \Exception ('No record found', 404);
+        }
+        return $row;
+    }
 
     /**
      * This function is used to create a new user
